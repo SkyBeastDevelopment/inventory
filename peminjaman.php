@@ -85,6 +85,8 @@ require 'cek.php';
                                             <!-- Modal body -->
                                             <form method="post">
                                             <div class="modal-body">
+                                                <input type="date" class="form-control" name="tgl" id="tgl"/>
+                                                <br>
 
                                                 <select name="barangnya" class="form-control">
                                                     <?php
@@ -117,11 +119,12 @@ require 'cek.php';
                                 <table class="table table-bordered" id="datatablesSimple">
                                     <thead>
                                         <tr>
-                                            <th>Tanggal</th>
+                                            <th>Tanggal Pinjam</th>
                                             <th>Nama Barang</th>
                                             <th>Jumlah</th>
                                             <th>Kepada</th>
                                             <th>Status</th>
+                                            <th>Tanggal Kembali</th>
                                             <th>Action</th>
                                         </tr>
                                     </thead>
@@ -137,6 +140,7 @@ require 'cek.php';
                                                 $qty = $data['qty'];
                                                 $penerima = $data['peminjam'];
                                                 $status = $data['status'];
+                                                $tanggalkembali = $data['tanggalkembali'];
                                             ?>
                                             <tr>
                                                 <td><?=$tanggal;?></td>
@@ -144,6 +148,7 @@ require 'cek.php';
                                                 <td><?=$qty;?></td>
                                                 <td><?=$penerima;?></td>
                                                 <td><?=$status;?></td>
+                                                <td><?=$tanggalkembali;?></td>
                                                 <td>
                                                 
                                                 <?php

@@ -44,6 +44,22 @@ if(isset($_POST['barangmasuk'])){
     $barangnya = $_POST['barangnya'];
     $penerima = $_POST['penerima'];
     $qty = $_POST['qty'];
+    $tanggal = $_POST['tgl'];
+
+    // Validasi taggal
+    $tgl_sekarang = new Datetime(date('Y-m-d'));
+    $tgl_inputan= new Datetime($tanggal);
+
+    if($tgl_inputan > $tgl_sekarang){
+        echo '
+        <script>
+            alert("Tanggal melebihi tanggal sekarang");
+            window.location.href="masuk.php";
+        </script>
+        ';
+        
+        return;
+    }
 
     $cekstocksekarang = mysqli_query($conn, "select * from stock where idbarang='$barangnya'");
     $ambildatanya = mysqli_fetch_array($cekstocksekarang);
@@ -51,7 +67,7 @@ if(isset($_POST['barangmasuk'])){
     $stocksekarang = $ambildatanya['baik'];
     $tambahkanstocksekarangdenganquantity = $stocksekarang+$qty;
 
-    $addtomasuk = mysqli_query($conn, "insert into masuk (idbarang, keterangan, qty) values('$barangnya', '$penerima', '$qty')");
+    $addtomasuk = mysqli_query($conn, "insert into masuk ( idmasuk, idbarang, tanggal, keterangan, qty) values('', '$barangnya', '$tanggal', '$penerima', '$qty')");
     $updatestockmasuk = mysqli_query($conn, "update stock set baik='$tambahkanstocksekarangdenganquantity' where idbarang='$barangnya'");
     if($addtomasuk&&$updatestockmasuk){
         header('location:masuk.php');
@@ -66,6 +82,22 @@ if(isset($_POST['addbarangkeluar'])){
     $barangnya = $_POST['barangnya'];
     $penerima = $_POST['penerima'];
     $qty = $_POST['qty'];
+    $tanggal = $_POST['tgl'];
+
+    // Validasi taggal
+    $tgl_sekarang = new Datetime(date('Y-m-d'));
+    $tgl_inputan= new Datetime($tanggal);
+
+    if($tgl_inputan > $tgl_sekarang){
+        echo '
+        <script>
+            alert("Tanggal melebihi tanggal sekarang");
+            window.location.href="masuk.php";
+        </script>
+        ';
+        
+        return;
+    }
 
     $cekstocksekarang = mysqli_query($conn, "select * from stock where idbarang='$barangnya'");
     $ambildatanya = mysqli_fetch_array($cekstocksekarang);
@@ -76,7 +108,7 @@ if(isset($_POST['addbarangkeluar'])){
         // Kalau Barangnya Cukup
         $tambahkanstocksekarangdenganquantity = $stocksekarang-$qty;
 
-        $addtokeluar = mysqli_query($conn, "insert into keluar (idbarang, penerima, qty) values('$barangnya', '$penerima', '$qty')");
+        $addtokeluar = mysqli_query($conn, "insert into keluar (idkeluar, idbarang, tanggal, penerima, qty) values('', '$barangnya', '$tanggal', '$penerima', '$qty')");
         $updatestockmasuk = mysqli_query($conn, "update stock set baik='$tambahkanstocksekarangdenganquantity' where idbarang='$barangnya'");
         if($addtokeluar&&$updatestockmasuk){
             header('location:keluar.php');
@@ -149,6 +181,22 @@ if(isset($_POST['updatebarangmasuk'])){
     $idm = $_POST['idm'];
     $deskripsi = $_POST['keterangan'];
     $qty = $_POST['qty'];
+    $tanggal = $_POST['tgl'];
+
+    // Validasi taggal
+    $tgl_sekarang = new Datetime(date('Y-m-d'));
+    $tgl_inputan= new Datetime($tanggal);
+
+    if($tgl_inputan > $tgl_sekarang){
+        echo '
+        <script>
+            alert("Tanggal melebihi tanggal sekarang");
+            window.location.href="masuk.php";
+        </script>
+        ';
+        
+        return;
+    }
 
     $lihatstock = mysqli_query($conn, "select * from stock where idbarang='$idb'");
     $stocknya = mysqli_fetch_array($lihatstock);
@@ -162,7 +210,7 @@ if(isset($_POST['updatebarangmasuk'])){
         $selisih = $qty-$qtyskrg;
         $kurangin = $stockskrg - $selisih; 
         $kurangistocknya = mysqli_query($conn, "update stock set baik='$kurangin' where idbarang='$idb'");
-        $updatenya = mysqli_query($conn, "update masuk set qty='$qty', keterangan='$deskripsi' where idmasuk='$idm'");
+        $updatenya = mysqli_query($conn, "update masuk set qty='$qty', tanggal='$tanggal', keterangan='$deskripsi' where idmasuk='$idm'");
             if($kurangistocknya&&$updatenya){
                 header('location:masuk.php');
             } else {
@@ -174,7 +222,7 @@ if(isset($_POST['updatebarangmasuk'])){
         $selisih = $qtyskrg-$qty;
         $kurangin = $stockskrg + $selisih; 
         $kurangistocknya = mysqli_query($conn, "update stock set baik='$kurangin' where idbarang='$idb'");
-        $updatenya = mysqli_query($conn, "update masuk set qty='$qty', keterangan='$deskripsi' where idmasuk='$idm'");
+        $updatenya = mysqli_query($conn, "update masuk set qty='$qty', tanggal='$tanggal', keterangan='$deskripsi' where idmasuk='$idm'");
             if($kurangistocknya&&$updatenya){
                 header('location:masuk.php');
             } else {
@@ -214,6 +262,22 @@ if(isset($_POST['updatebarangkeluar'])){
     $idk = $_POST['idk'];
     $penerima = $_POST['penerima'];
     $qty = $_POST['qty'];
+    $tanggal = $_POST['tgl'];
+
+    // Validasi taggal
+    $tgl_sekarang = new Datetime(date('Y-m-d'));
+    $tgl_inputan= new Datetime($tanggal);
+
+    if($tgl_inputan > $tgl_sekarang){
+        echo '
+        <script>
+            alert("Tanggal melebihi tanggal sekarang");
+            window.location.href="keluar.php";
+        </script>
+        ';
+        
+        return;
+    }
 
     $lihatstock = mysqli_query($conn,"select * from stock where idbarang='$idb'");
     $stocknya = mysqli_fetch_array($lihatstock);
@@ -227,7 +291,7 @@ if(isset($_POST['updatebarangkeluar'])){
         $selisih = $qty-$qtyskrg;
         $kurangin = $stockskrg - $selisih;
         $kurangistocknya = mysqli_query($conn,"update stock set baik='$kurangin' where idbarang='$idb'");
-        $updatenya = mysqli_query($conn,"update keluar set qty='$qty', penerima='$penerima' where idkeluar='$idk'");
+        $updatenya = mysqli_query($conn,"update keluar set qty='$qty', tanggal='$tanggal', penerima='$penerima' where idkeluar='$idk'");
             if($kurangistocknya&&$updatenya){
                 header('location:keluar.php');
             } else {
@@ -238,7 +302,7 @@ if(isset($_POST['updatebarangkeluar'])){
         $selisih = $qtyskrg-$qty;
         $kurangi = $stockskrg + $selisih;
         $kurangistocknya = mysqli_query($conn,"update stock set baik='$kurangi' where idbarang='$idb'");
-        $updatenya = mysqli_query($conn,"update keluar set qty='$qty', penerima='$penerima' where idkeluar='$idk'");
+        $updatenya = mysqli_query($conn,"update keluar set qty='$qty', tanggal='$tanggal', penerima='$penerima' where idkeluar='$idk'");
         
         if($kurangistocknya&&$updatenya){
             header('location:keluar.php');
@@ -276,6 +340,23 @@ if(isset($_POST['pinjam'])){
     $idbarang = $_POST['barangnya']; 
     $qty = $_POST['qty'];
     $penerima = $_POST['penerima'];
+    $tanggal = $_POST['tgl'];
+
+        // Validasi taggal
+        $tgl_sekarang = new Datetime(date('Y-m-d'));
+        $tgl_inputan= new Datetime($tanggal);
+    
+        if($tgl_inputan > $tgl_sekarang){
+            echo '
+            <script>
+                alert("Tanggal melebihi tanggal sekarang");
+                window.location.href="peminjaman.php";
+            </script>
+            ';
+            
+            return;
+        }
+    
 
     // Ambil Stock Sekarang
     $stock_saat_ini = mysqli_query($conn, "select * from stock where idbarang='$idbarang'");
@@ -286,7 +367,7 @@ if(isset($_POST['pinjam'])){
     $new_stock = $stock-$qty;
 
     // Mulai Query Insert
-    $insertpinjam = mysqli_query($conn, "INSERT INTO peminjaman (idbarang, qty, peminjam) values ('$idbarang', '$qty', '$penerima')");
+    $insertpinjam = mysqli_query($conn, "INSERT INTO peminjaman (idbarang, tanggalpinjam, qty, peminjam) values ('$idbarang', '$tanggal', '$qty', '$penerima')");
 
     // Mengurangi Stock di Table Stock
     $kurangistock = mysqli_query($conn, "update stock set baik='$new_stock' where idbarang='$idbarang'");
@@ -315,9 +396,10 @@ if(isset($_POST['pinjam'])){
 if(isset($_POST['barangkembali'])){
     $idpinjam = $_POST['idpinjam'];
     $idbarang = $_POST['idbarang'];
+    $tanggalkembali = date('Y-m-d');
 
     // Eksekusi
-    $update_status = mysqli_query($conn, "update peminjaman set status='kembali' where idpeminjaman='$idpinjam'");
+    $update_status = mysqli_query($conn, "update peminjaman set status='kembali', tanggalkembali='$tanggalkembali' where idpeminjaman='$idpinjam'");
 
     // Ambil Stock Sekarang
     $stock_saat_ini = mysqli_query($conn, "select * from stock where idbarang='$idbarang'");

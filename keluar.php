@@ -85,6 +85,8 @@ require 'cek.php';
                                             <!-- Modal body -->
                                             <form method="post">
                                             <div class="modal-body">
+                                                <input type="date" class="form-control" name="tgl" id="tgl"/>
+                                                <br>
 
                                                 <select name="barangnya" class="form-control">
                                                     <?php
@@ -127,7 +129,7 @@ require 'cek.php';
                                     <tbody>
 
                                         <?php
-                                            $ambilsemuadatastock = mysqli_query($conn, "select * from keluar k, stock s where s.idbarang = k.idbarang");
+                                            $ambilsemuadatastock = mysqli_query($conn, "SELECT keluar.idbarang, keluar.idkeluar, keluar.tanggal, keluar.penerima, keluar.qty, stock.namabarang FROM keluar LEFT JOIN stock ON  keluar.idbarang = stock.idbarang");
                                             while($data=mysqli_fetch_array($ambilsemuadatastock)){
                                                 $idb = $data['idbarang'];
                                                 $idk = $data['idkeluar'];
@@ -166,6 +168,8 @@ require 'cek.php';
                                                     <!-- Modal body -->
                                                     <form method="post">
                                                     <div class="modal-body">
+                                                        <input type="date" class="form-control" value="<?=$tanggal;?>" name="tgl" id="tgl"/>
+                                                        <br>
                                                         <input type="text" name="penerima" value="<?=$penerima;?>" class="form-control" required>
                                                         <br>
                                                         <input type="number" name="qty" value="<?=$qty;?>" class="form-control" required>
